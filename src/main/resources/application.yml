@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: FreeBoard-EventHandler-Spring
+  rsocket:
+    server:
+      port: 7001
+      transport: websocket
+      mapping-path: /rsocket
+  kafka:
+    bootstrap-servers: localhost:9092
+server:
+  port: 8085
+
+logging:
+  level:
+    org.springframework.messaging: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.rsocket: TRACE
+    org.springframework.web.reactive.function.client: DEBUG
+    org.springframework.web.reactive: DEBUG
+    org.springframework.boot: INFO
+    com.yourcompany: DEBUG
+
+jwt:
+  secret-key: e3f7e72a3b6945d8b519b0c2358b9454f0334b2c0b6e3d6db5b44c6be7413b8f
+
+api:
+  auth:
+    path: http://localhost:8080/
+  profile:
+    path: http://localhost:8081/
