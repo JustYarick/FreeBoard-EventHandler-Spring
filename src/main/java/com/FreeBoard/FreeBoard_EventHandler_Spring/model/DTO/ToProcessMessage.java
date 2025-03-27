@@ -1,6 +1,5 @@
 package com.FreeBoard.FreeBoard_EventHandler_Spring.model.DTO;
 
-import com.FreeBoard.FreeBoard_EventHandler_Spring.model.interfaces.Events.BoardMessageEvent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
