@@ -1,4 +1,11 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7999/realms/FreeBoard
+          jwk-set-uri: http://localhost:7999/realms/FreeBoard/protocol/openid-connect/certs
+
   application:
     name: FreeBoard-EventHandler-Spring
   rsocket:
@@ -10,9 +17,6 @@ spring:
     bootstrap-servers: ${KAFKA_SERVER_HOST:localhost}:9092
 server:
   port: ${SERVER_PORT:8085}
-
-jwt:
-  secret-key: e3f7e72a3b6945d8b519b0c2358b9454f0334b2c0b6e3d6db5b44c6be7413b8f
 
 api:
   auth:

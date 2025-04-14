@@ -1,11 +1,11 @@
 package com.FreeBoard.FreeBoard_EventHandler_Spring.config;
 
-import com.FreeBoard.FreeBoard_EventHandler_Spring.filter.HttpJwtAuthFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -19,8 +19,6 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private final HttpJwtAuthFilter jwtAuthFilter;
-
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         return http
@@ -32,7 +30,9 @@ public class SecurityConfig {
                         .pathMatchers("/test").permitAll()  // Разрешаем доступ к тестовому пути без аутентификации
                         .anyExchange().authenticated()  // Для остальных запросов требуется аутентификация
                 )
-                .addFilterBefore(jwtAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
+                )
                 .build();
     }
 
