@@ -9,6 +9,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -28,7 +29,7 @@ public class CustomReactiveJwtAuthenticationConverterAdapter implements Converte
         }
 
         if (isExpired(jwt)) {
-            return Mono.error(new BadCredentialsException("JWT token expired"));
+            return Mono.error(new JwtException("TOKEN_EXPIRED"));
         }
         String role = Optional.ofNullable(jwt.getClaim("role"))
                 .map(Object::toString)
@@ -45,7 +46,6 @@ public class CustomReactiveJwtAuthenticationConverterAdapter implements Converte
         Instant expiration = jwt.getExpiresAt();
         if (Instant.now().isAfter(expiration)) {
             System.out.println("Expired JWT");
-            throw new RuntimeException("JWT expired");
         }
         return expiration != null && expiration.isBefore(Instant.now());
     }
