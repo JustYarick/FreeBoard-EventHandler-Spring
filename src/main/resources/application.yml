@@ -3,8 +3,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:7999/realms/FreeBoard
-          jwk-set-uri: http://localhost:7999/realms/FreeBoard/protocol/openid-connect/certs
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:7999/realms/FreeBoard}
+          jwk-set-uri: ${KEYCLOAK_JWT_SET_URL:http://localhost:7999/realms/FreeBoard/protocol/openid-connect/certs}
 
   application:
     name: FreeBoard-EventHandler-Spring

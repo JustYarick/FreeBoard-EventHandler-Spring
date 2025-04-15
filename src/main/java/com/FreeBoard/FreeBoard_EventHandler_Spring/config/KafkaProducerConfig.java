@@ -1,10 +1,7 @@
 package com.FreeBoard.FreeBoard_EventHandler_Spring.config;
 
-import com.FreeBoard.FreeBoard_EventHandler_Spring.model.DTO.ShapeMessageDTO;
 import com.FreeBoard.FreeBoard_EventHandler_Spring.model.DTO.ToProcessMessage;
-import com.FreeBoard.FreeBoard_EventHandler_Spring.model.interfaces.Events.BoardMessageEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

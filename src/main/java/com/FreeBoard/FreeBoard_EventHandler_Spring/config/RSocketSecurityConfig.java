@@ -1,7 +1,7 @@
 package com.FreeBoard.FreeBoard_EventHandler_Spring.config;
 
-import com.FreeBoard.FreeBoard_EventHandler_Spring.utils.CustomReactiveJwtAuthenticationConverterAdapter;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,10 +14,13 @@ import org.springframework.security.rsocket.core.PayloadSocketAcceptorIntercepto
 
 @Configuration
 @EnableRSocketSecurity
-@RequiredArgsConstructor
+@Slf4j
 public class RSocketSecurityConfig {
 
-    private final CustomReactiveJwtAuthenticationConverterAdapter customReactiveJwtAuthenticationConverterAdapter;
+    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private String issuerDecoderUrl;
+
+//    private final CustomReactiveJwtAuthenticationConverterAdapter customReactiveJwtAuthenticationConverterAdapter;
 
     @Bean
     PayloadSocketAcceptorInterceptor rsocketInterceptor(RSocketSecurity rsocket) {
@@ -38,16 +41,17 @@ public class RSocketSecurityConfig {
 //        return rsocket.build();
 //    }
 
-    @Bean
-    public JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(ReactiveJwtDecoder reactiveJwtDecoder) {
-        JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager = new JwtReactiveAuthenticationManager(reactiveJwtDecoder);
-        jwtReactiveAuthenticationManager.setJwtAuthenticationConverter(customReactiveJwtAuthenticationConverterAdapter);
-        return jwtReactiveAuthenticationManager;
-    }
-
+//    @Bean
+//    public JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(ReactiveJwtDecoder reactiveJwtDecoder) {
+//        JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager = new JwtReactiveAuthenticationManager(reactiveJwtDecoder);
+//        jwtReactiveAuthenticationManager.setJwtAuthenticationConverter(customReactiveJwtAuthenticationConverterAdapter);
+//        return jwtReactiveAuthenticationManager;
+//    }
+//
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
+        log.info("JWT Decoder initialized with url: {}", issuerDecoderUrl);
         return ReactiveJwtDecoders
-                .fromIssuerLocation("http://localhost:7999/realms/FreeBoard");
+                .fromIssuerLocation(issuerDecoderUrl);
     }
 }

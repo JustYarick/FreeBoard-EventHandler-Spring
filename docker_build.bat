@@ -1,5 +1,5 @@
 @echo off
-set IMAGE_NAME=yaricks/freeboard-event_handler-api
+set IMAGE_NAME=yaricks/freeboard-event-handler-api
 set IMAGE_TAG=1.0.0
 
 echo 🔧 Сборка Maven...
