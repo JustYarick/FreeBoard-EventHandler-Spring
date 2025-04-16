@@ -26,8 +26,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeExchange(exchange -> exchange
                         // Разрешаем доступ без аутентификации для маршрута RSocket
-                        .pathMatchers("/rsocket/**").permitAll()  // Разрешаем все запросы на RSocket
-                        .pathMatchers("/test").permitAll()  // Разрешаем доступ к тестовому пути без аутентификации
+                        .pathMatchers("/rsocket/**", "/actuator/**", "/test").permitAll()  // Разрешаем все запросы на RSocket
                         .anyExchange().authenticated()  // Для остальных запросов требуется аутентификация
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

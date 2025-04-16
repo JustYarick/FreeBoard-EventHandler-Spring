@@ -18,6 +18,22 @@ spring:
 server:
   port: ${SERVER_PORT:8085}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus, rsocket
+  metrics:
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+    enable:
+      rsocket: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 api:
   auth:
     path: http://${AUTH_SERVICE_HOST:localhost}:${PROFILE_SERVICE_PORT:8080}/
