@@ -1,44 +1,34 @@
 package com.FreeBoard.FreeBoard_EventHandler_Spring.controller.RSocket;
 
 import com.FreeBoard.FreeBoard_EventHandler_Spring.model.DTO.ShapeMessageDTO;
-import com.FreeBoard.FreeBoard_EventHandler_Spring.model.DTO.ToProcessMessage;
-import com.FreeBoard.FreeBoard_EventHandler_Spring.service.SecurityService;
-import lombok.RequiredArgsConstructor;
+import com.FreeBoard.FreeBoard_EventHandler_Spring.service.BoardMessageService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Mono;
 
 @Controller
-@RequiredArgsConstructor
 @MessageMapping("board-events")
 @Slf4j
+@AllArgsConstructor
 public class BoardMessageController {
 
-    private final KafkaTemplate<String, ToProcessMessage> boardMessageKafkaTemplate;
-    private final SecurityService securityService;
-
-    private static final String TOPIC_NAME = "boardEventTopic";
+    private final BoardMessageService boardMessageService;
 
     @MessageMapping("addShape")
-    public Mono<Void> addShape(ShapeMessageDTO boardMessage) {
-        return securityService.getCurrentUserUUID()
-                .flatMap(uuid -> Mono.fromFuture(() ->
-                        boardMessageKafkaTemplate.send(TOPIC_NAME, 0, "", new ToProcessMessage(boardMessage, uuid))).then());
+    public Mono<String> addShape(ShapeMessageDTO boardMessage) {
+        return boardMessageService.sendEvent(boardMessage, "ADD_SHAPE");
     }
 
+
     @MessageMapping("deleteShape")
-    public Mono<Void> deleteShape(ShapeMessageDTO boardMessage) {
-        return securityService.getCurrentUserUUID()
-                .flatMap(uuid -> Mono.fromFuture(() ->
-                        boardMessageKafkaTemplate.send(TOPIC_NAME, 1, "", new ToProcessMessage(boardMessage, uuid))).then());
+    public Mono<String> deleteShape(ShapeMessageDTO boardMessage) {
+        return boardMessageService.sendEvent(boardMessage, "DELETE_SHAPE");
     }
 
     @MessageMapping("transformShape")
-    public Mono<Void> transformShape(ShapeMessageDTO boardMessage) {
-        return securityService.getCurrentUserUUID()
-                .flatMap(uuid -> Mono.fromFuture(() ->
-                        boardMessageKafkaTemplate.send(TOPIC_NAME, 2, "", new ToProcessMessage(boardMessage, uuid))).then());
+    public Mono<String> transformShape(ShapeMessageDTO boardMessage) {
+        return boardMessageService.sendEvent(boardMessage, "TRANSFORM_SHAPE");
     }
 }

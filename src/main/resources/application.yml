@@ -5,6 +5,7 @@ spring:
         jwt:
           issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:7999/realms/FreeBoard}
           jwk-set-uri: ${KEYCLOAK_JWT_SET_URL:http://localhost:7999/realms/FreeBoard/protocol/openid-connect/certs}
+    permit-all: /rsocket/**, /actuator/**, /test
 
   application:
     name: FreeBoard-EventHandler-Spring
@@ -15,8 +16,10 @@ spring:
       mapping-path: ${RSOCKER_PATH:/rsocket}
   kafka:
     bootstrap-servers: ${KAFKA_SERVER_HOST:localhost}:9092
+    events-topic: ${KAFKA_EVENTS_TOPIC:BOARD_EVENTS}
 server:
   port: ${SERVER_PORT:8085}
+  frontend-url: ${FRONTEND_URL:http://localhost:4200}
 
 management:
   endpoints:
@@ -33,9 +36,3 @@ management:
     metrics:
       export:
         enabled: true
-
-api:
-  auth:
-    path: http://${AUTH_SERVICE_HOST:localhost}:${PROFILE_SERVICE_PORT:8080}/
-  profile:
-    path: http://${PROFILE_SERVICE_HOST:localhost}:${PROFILE_SERVICE_PORT:8081}/

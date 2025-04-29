@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.rsocket.EnableRSocketSecur
 import org.springframework.security.config.annotation.rsocket.RSocketSecurity;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoders;
-import org.springframework.security.oauth2.server.resource.authentication.JwtReactiveAuthenticationManager;
 import org.springframework.security.rsocket.core.PayloadSocketAcceptorInterceptor;
 
 @Configuration
@@ -19,8 +18,6 @@ public class RSocketSecurityConfig {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String issuerDecoderUrl;
-
-//    private final CustomReactiveJwtAuthenticationConverterAdapter customReactiveJwtAuthenticationConverterAdapter;
 
     @Bean
     PayloadSocketAcceptorInterceptor rsocketInterceptor(RSocketSecurity rsocket) {
@@ -34,20 +31,6 @@ public class RSocketSecurityConfig {
         return rsocket.build();
     }
 
-//    @Bean
-//    PayloadSocketAcceptorInterceptor rsocketInterceptor(RSocketSecurity rsocket) {
-//        rsocket
-//                .jwt(jwtSpec -> jwtSpec.authenticationManager(jwtReactiveAuthenticationManager(jwtDecoder())));
-//        return rsocket.build();
-//    }
-
-//    @Bean
-//    public JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager(ReactiveJwtDecoder reactiveJwtDecoder) {
-//        JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager = new JwtReactiveAuthenticationManager(reactiveJwtDecoder);
-//        jwtReactiveAuthenticationManager.setJwtAuthenticationConverter(customReactiveJwtAuthenticationConverterAdapter);
-//        return jwtReactiveAuthenticationManager;
-//    }
-//
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
         log.info("JWT Decoder initialized with url: {}", issuerDecoderUrl);
