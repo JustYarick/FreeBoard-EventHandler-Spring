@@ -4,7 +4,6 @@ import com.FreeBoard.FreeBoard_EventHandler_Spring.model.entity.ShapeEntity;
 import com.FreeBoard.FreeBoard_EventHandler_Spring.model.interfaces.Events.BoardMessageEvent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
